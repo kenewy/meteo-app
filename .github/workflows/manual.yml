@@ -20,7 +20,7 @@ jobs:
       - name: Installer les packages Python
         run: |
           python -m pip install --upgrade pip
-          pip install -r exigences.txt
+          pip install -r requirements.txt
 
       - name: Exécuter le script py
         run: python projetmeteo.py
