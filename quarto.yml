@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+
+website:
+  title: "Météo à montpellier"
+  page-navigation: true
+  repo-url: https://github.com/kenewy/meteo-app
+  repo-actions: [source, issue]
+  
+  navbar:
+    tools: 
+      - icon: github
+        href: https://github.com/kenewy/meteo-app
+        text: GitHub
+    left:
+      - href: index.qmd
+        text: Accueil
+         
+execute:
+  echo: false  
+
+format:
+  html:
+    theme: cerulean
+jupyter: python3
