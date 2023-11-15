@@ -4,6 +4,6 @@ Cette interface météo, conçue en Python, a été élaborée pour afficher les
 
 # meteo-app
 
-<img src="newmeteo.jp />
+
 
 
