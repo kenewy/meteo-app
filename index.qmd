@@ -1,0 +1,133 @@
+---
+title: "Public civil servant and inflation rate in France"
+---
+
+In the file [fonctionnaires_pauvres.py](fonctionnaires_pauvres.py) we investigated the evolution of the salary of civil servants in France through the "Point d'indice" evolution.
+
+
+```{python}
+#| echo: false
+#| warning: false
+import plotly.express as px
+import pandas as pd
+# import seaborn as sns
+# import matplotlib.pylab as plt
+import numpy as np
+import pooch
+import zipfile
+#| echo: false
+import datetime
+from dateutil.relativedelta import relativedelta
+
+# Source: # https://www.insee.fr/fr/statistiques/serie/001763852
+
+current_time = datetime.datetime.now()
+last_date = current_time - relativedelta(months=2)
+fname_inflation = pooch.retrieve(f"https://www.insee.fr/fr/statistiques/serie/telecharger/csv/001763852?ordre=antechronologique&transposition=donneescolonne&periodeDebut=1&anneeDebut=1990&periodeFin={last_date.month}&anneeFin={last_date.year}&revision=sansrevisions", known_hash=None)
+
+zf = zipfile.ZipFile(fname_inflation) 
+df_ipc = pd.read_csv(zf.open('valeurs_mensuelles.csv'), header=0, sep=";",skiprows=4)
+```
+
+```{python}
+#| echo: false
+
+df_ipc.columns = ["Date", "IPC", "Useless", "Date2"]
+df_ipc.index = pd.to_datetime(df_ipc["Date"], format="%Y-%m")
+df_ipc.drop(df_ipc.columns[[0, 2]], inplace=True, axis=1)
+df_ipc.head()
+
+# Set origin
+init_date = "2005-09-01"
+df_ipc["IPC(idx)"] = df_ipc["IPC"] / df_ipc.loc[init_date]["IPC"]
+df_ipc.head()
+# Sort by "Date" in ascending order
+df_ipc.sort_values(by="Date", inplace=True)
+```
+
+```{python}
+#| echo: false
+#| warning: false
+fname_pt_indice = pooch.retrieve("https://www.data.gouv.fr/fr/datasets/r/6b5a3e7e-7de7-437c-b8eb-a04ab4138fbb", known_hash=None)
+
+df_pt_idx = pd.read_csv(fname_pt_indice, usecols=["date_effet", "valeur_100_points_euros"])
+
+df_pt_idx = df_pt_idx.rename(columns={"date_effet": "Date", "valeur_100_points_euros": "Point d'indice"})
+
+df_pt_idx["Date"] = pd.to_datetime(df_pt_idx["Date"], format="%Y-%m-%d")
+
+df_pt_idx.sort_values(by="Date", inplace=True)
+
+
+df = pd.merge_asof(df_ipc, df_pt_idx, on="Date")
+df.index = df["Date"]
+
+
+df.loc[init_date]["Point d'indice"]
+df["Point d'indice(idx)"] = (
+    df["Point d'indice"] / df.loc[init_date]["Point d'indice"]
+)
+
+df["Point d'indice(euros constant)"] = (
+    df["Point d'indice(idx)"] / df["IPC(idx)"]
+)
+```
+
+
+```{python}
+#| echo: false
+fig = px.line(df, x="Date", y=["IPC(idx)", "Point d'indice(idx)"], title="Joint evolution of inflation and point d'indice <br> Réference 1 le " + init_date, color_discrete_sequence=px.colors.qualitative.D3, template='none')
+fig.update_xaxes(range=[init_date, df['Date'][-1]], tickangle=-60, nticks=20
+)
+fig.update_yaxes(range=[0.80, 1.5])
+fig.update_layout(legend_title=None, xaxis_tickformat='%Y', hovermode="x unified")
+fig.update_traces(hovertemplate="%{x|%Y/%m} value: %{y}")
+
+# matplotlib version
+# df.plot(x="Date", y=["IPC(idx)", "Point d'indice(idx)"])
+# ax = plt.gca()
+# ax.set_xlim(left=np.datetime64(init_date))
+# ax.set_ylim(bottom=0.9)
+# plt.show()
+```
+
+
+```{python}
+#| echo: false
+
+fig = px.line(df, x="Date", y=["Point d'indice(euros constant)"], title="Point d'indice (corrigé de l'inflation): <br> Réference 1 le " + init_date,color_discrete_sequence=px.colors.qualitative.D3, template='none')
+
+fig.update_xaxes(range=[init_date, df['Date'][-1]], tickangle=-60, nticks=20
+)
+fig.update_yaxes(range=[0.80, 1.2])
+fig.update_layout(showlegend=False)
+fig.update_traces(hovertemplate='<br>'.join([
+            "Date: %{x}",
+            "value: %{y}",
+        ]),
+)
+
+
+# matplotlib version
+# df.plot(
+#     x="Date",
+#     y=["Point d'indice(euros constant)"],
+#     title="Point d'indice (€ corrigé de l'inflation):\n Réference 1 le "
+#     + init_date,
+# )
+# ax = plt.gca()
+# ax.set_xlim(left=np.datetime64(init_date))
+# ax.set_ylim(bottom=0.80, top=1.2)
+# ax.legend().remove()
+
+```
+
+
+```{python}
+print(f"Computation was performed at : {current_time} (GMT)")
+```
+
+Sources are:
+
+- inflation : [https://www.insee.fr/fr/statistiques/serie/001763852#Telechargement](https://www.insee.fr/fr/statistiques/serie/001763852#Telechargement)
+- point d'indice: [https://www.data.gouv.fr/fr/datasets/r/6b5a3e7e-7de7-437c-b8eb-a04ab4138fbb](https://www.data.gouv.fr/fr/datasets/r/6b5a3e7e-7de7-437c-b8eb-a04ab4138fbb)
