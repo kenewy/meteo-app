@@ -138,4 +138,116 @@ plt.imshow(img)
 from IPython.display import HTML
 
 # Votre code Python ici pour extraire les données météorologiques...
+html_code = f"""
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
 
+<table id="myTable">
+    <!-- Ligne 1 -->
+    <tr title="Date" style="background-color: rgb(180, 255, 255)">
+        <th style="background-color: rgb(255, 255, 255); border-top:3px solid rgb(20, 15, 185); border-right:3px solid rgb(20, 15, 185); border-left:3px solid rgb(20, 15, 185)">
+            <strong> {noms_jours[0]} </strong>
+            <br>Aujourd'hui
+        </th>
+        <th>
+            <strong> {noms_jours[1]} </strong>
+            <br>Demain
+        </th>
+        <th>
+            <strong> {noms_jours[2]} </strong>
+            <br>{dates_formatees[2]}
+        </th>
+        <th>
+            <strong> {noms_jours[3]} </strong>
+            <br>{dates_formatees[3]}
+        </th>
+        <th>
+            <strong> {noms_jours[4]} </strong>
+            <br>{dates_formatees[4]}
+        </th>
+    </tr>
+
+    <!-- Ligne 2 -->
+    <tr title="icône WMO" style="background-color: rgb(82, 177, 255)">
+        <th style="border-right:3px solid rgb(20, 15, 185); border-left:3px solid rgb(20, 15, 185)">
+            <img class="day-image" src ="{noms_urls[0]['url']}" title="{noms_urls[0]['nom']}">
+            <img class="circular-image" src ="{noms_urls_n[0]['urln']}" title="{noms_urls_n[0]['nom']}">
+        </th>
+        <th>
+            <img class="day-image" src ="{noms_urls[1]['url']}" title="{noms_urls[1]['nom']}">
+            <img class="circular-image" src ="{noms_urls_n[1]['urln']}" title="{noms_urls_n[1]['nom']}">
+        </th>
+        <th>
+            <img class="day-image" src ="{noms_urls[2]['url']}" title="{noms_urls[2]['nom']}">
+            <img class="circular-image" src ="{noms_urls_n[2]['urln']}" title="{noms_urls_n[2]['nom']}">
+        </th>
+        <th>
+            <img class="day-image" src ="{noms_urls[3]['url']}" title="{noms_urls[3]['nom']}">
+            <img class="circular-image" src ="{noms_urls_n[3]['urln']}" title="{noms_urls_n[3]['nom']}">
+        </th>
+        <th>
+            <img src ="{noms_urls[4]['url']}" title="{noms_urls[4]['nom']}" style="width:60px; height:60px">
+        </th>
+    </tr>
+
+    <!-- Ligne 3 -->
+    <tr title="Températures minimale - maximale" style="background-color: rgb(180, 255, 255)">
+        <th style="background-color: rgb(255, 255, 255); border-right:3px solid rgb(20, 15, 185); border-left:3px solid rgb(20, 15, 185)">
+            {generate_temperature(temperature_min_ent[0], temperature_max_ent[0], moyenne[0])}
+        </th>
+        <th>
+            {generate_temperature(temperature_min_ent[1], temperature_max_ent[1], moyenne[1])}
+        </th>
+        <th>
+            {generate_temperature(temperature_min_ent[2], temperature_max_ent[2], moyenne[2])}
+        </th>
+        <th>
+            {generate_temperature(temperature_min_ent[3], temperature_max_ent[3], moyenne[3])}
+        </th>
+        <th>
+            {generate_temperature(temperature_min_ent[4], temperature_max_ent[4], moyenne[4])}
+        </th>
+    </tr>
+
+    <!-- Ligne 4 -->
+    <tr title="Vitesse moyenne du vent" style="background-color: rgb(180, 255, 255)">
+        <th style="background-color: rgb(255, 255, 255); border-right:3px solid rgb(20, 15, 185); border-left:3px solid rgb(20, 15, 185)">
+            {generate_wind(vent[0], direction_vent[0])}
+        </th>
+        <th>
+            {generate_wind(vent[1], direction_vent[1])}
+        </th>
+        <th>
+            {generate_wind(vent[2], direction_vent[2])}
+        </th>
+        <th>
+            {generate_wind(vent[3], direction_vent[3])}
+        </th>
+        <th>
+            {generate_wind(vent[4], direction_vent[4])}
+        </th>
+    </tr>
+    
+    <!-- Ligne 5 -->
+    <tr title="Quantité de précipitations" style="background-color: rgb(180, 255, 255)">
+        <th style="background-color: rgb(255, 255, 255); border-bottom:3px solid rgb(20, 15, 185); border-right:3px solid rgb(20, 15, 185); border-left:3px solid rgb(20, 15, 185)">
+            <img src="images_svg/Water_Drop.svg"> {precipitations[0]} mm
+        </th>
+        <th>
+            <img src="images_svg/Water_Drop.svg"> {precipitations[1]} mm
+        </th>
+        <th>
+            <img src="images_svg/Water_Drop.svg"> {precipitations[2]} mm
+        </th>
+        <th>
+            <img src="images_svg/Water_Drop.svg"> {precipitations[3]} mm
+        </th>
+        <th>
+            <img src="images_svg/Water_Drop.svg"> {precipitations[4]} mm
+        </th>
+    </tr>
+</table>
+"""
+
+display(HTML(html_code))
