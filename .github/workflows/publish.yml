@@ -1,7 +1,7 @@
 
 on:
   schedule:
-    - cron: "0 */1 * * *" # Mise à jour toutes les uns heures
+    - cron: "0 */1 * * *" # Mise à jour toutes les unes heures
   workflow_dispatch:
   push:
     branches: ["main"]
