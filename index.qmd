@@ -135,3 +135,64 @@ for i in range(len(cloudn)):
 plt.axis("off")
 plt.imshow(img)
 ```
+from IPython.display import HTML
+
+# Votre code Python ici pour extraire les données météorologiques...
+
+# Après avoir extrait les données, utilisez ces données pour générer le code HTML approprié
+html_code = f"""
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<table id="myTable">
+    <!-- Ligne 1 -->
+    <tr title="Date" style="background-color: rgb(180, 255, 255)">
+        <!-- Insérez vos données de date / nom de jours ici -->
+        <!-- Exemple: -->
+        <th><strong>{nom_jour_1}</strong><br>{date_1}</th>
+        <th><strong>{nom_jour_2}</strong><br>{date_2}</th>
+        <!-- ... Continuez pour les autres jours -->
+    </tr>
+
+    <!-- Ligne 2 -->
+    <tr title="icône WMO" style="background-color: rgb(82, 177, 255)">
+        <!-- Insérez vos images / icônes ici -->
+        <!-- Exemple: -->
+        <th><img class="day-image" src="{image_url_1}" title="{image_title_1}"></th>
+        <th><img class="day-image" src="{image_url_2}" title="{image_title_2}"></th>
+        <!-- ... Continuez pour les autres jours -->
+    </tr>
+
+    <!-- Ligne 3 (Températures) -->
+    <tr title="Températures minimale - maximale" style="background-color: rgb(180, 255, 255)">
+        <!-- Insérez vos données de température ici -->
+        <!-- Exemple: -->
+        <th>{temperature_min_1}°C - {temperature_max_1}°C</th>
+        <th>{temperature_min_2}°C - {temperature_max_2}°C</th>
+        <!-- ... Continuez pour les autres jours -->
+    </tr>
+
+    <!-- Ligne 4 (Vent) -->
+    <tr title="Vitesse moyenne du vent" style="background-color: rgb(180, 255, 255)">
+        <!-- Insérez vos données de vitesse du vent ici -->
+        <!-- Exemple: -->
+        <th>{vitesse_vent_1} Km/h</th>
+        <th>{vitesse_vent_2} Km/h</th>
+        <!-- ... Continuez pour les autres jours -->
+    </tr>
+    
+    <!-- Ligne 5 (Précipitations) -->
+    <tr title="Quantité de précipitations" style="background-color: rgb(180, 255, 255)">
+        <!-- Insérez vos données de précipitations ici -->
+        <!-- Exemple: -->
+        <th><img src="images_svg/Water_Drop.svg"> {precipitation_1} mm</th>
+        <th><img src="images_svg/Water_Drop.svg"> {precipitation_2} mm</th>
+        <!-- ... Continuez pour les autres jours -->
+    </tr>
+</table>
+"""
+
+# Afficher le HTML généré
+display(HTML(html_code))
+
