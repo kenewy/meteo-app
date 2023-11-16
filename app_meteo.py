@@ -132,9 +132,6 @@ for i in range(len(cloudn)):
   else:
     img.paste(img_nua_nuit.resize((50, 50)),(C+125+170*i, 250),)
 
-img = img.save("julteo.jpg")
-img_path = "julteo.jpg"
-img = Image.open(img_path)
 
 # Vérifiez si l'image est vide
 if img is not None:

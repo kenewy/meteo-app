@@ -122,7 +122,7 @@ for i  in range(len(maxtemp)):
     img.paste(img_cloud.resize((100, 100)),(C+20+170*i, 190),)
   elif (25>cloudj[i]):
     img.paste(img_sun.resize((100, 100)),(C+20+170*i, 190),)
-  elif (60>cloud[i]):
+  elif (60>cloudj[i]):
     img.paste(img_cloud2.resize((100, 100)),(C+20+170*i, 190),)
   else:
     img.paste(img_cloud3.resize((100, 100)),(C+20+170*i, 190),)
