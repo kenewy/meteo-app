@@ -1,14 +1,22 @@
 
 
 import requests
+<<<<<<< HEAD
 from datetime import datetime , timedelta # pour travailler avec les dates et les durées
+=======
+from datetime import datetime , timedelta 
+>>>>>>> c3750a7784e416ce8fe6a58ec4a167db745e42de
 import json
 from statistics import mean # pour calculer la moyenne 
 from PIL import Image, ImageDraw, ImageFont, ImageColor # pour manipuler des images avec pillow 
 
 
 
+<<<<<<< HEAD
  # Cette fonction parcourt la liste de données et remplace les valeurs nulles (None) par la valeur précédente non nulle
+=======
+
+>>>>>>> c3750a7784e416ce8fe6a58ec4a167db745e42de
 def dataclean(dataliste):
     for i in range(len(dataliste)):
         if(dataliste[i]==None):
