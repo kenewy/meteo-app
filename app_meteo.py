@@ -1,9 +1,9 @@
-import streamlit as st
-import requests
+import streamlit as st # Bibliothèque pour créer des applications web interactives
+import requests  # Pour effectuer des requêtes HTTP
 from datetime import datetime , timedelta
 import json
-from statistics import mean
-from PIL import Image, ImageDraw, ImageFont, ImageColor
+from statistics import mean # Pour travailler avec des données JSON
+from PIL import Image, ImageDraw, ImageFont, ImageColor #Pour manipuler des images avec Pillow
 
 
 st.write(
@@ -13,16 +13,18 @@ st.write(
 )
 
 def dataclean(dataliste):
-    for i in range(len(dataliste)):
+  # Cette fonction parcourt la liste de données et remplace les valeurs nulles (None) par la valeur précédente non nulle
+  
+    for i in range(len(dataliste))
         if(dataliste[i]==None):
             dataliste[i]=dataliste[i-1]
-    return dataliste
+    return dataliste  # Renvoie la liste nettoyée après avoir remplacé les valeurs nulles
 
 
-presentday=datetime.today()
-start_date=presentday.strftime("%Y-%m-%d")
-end_date = presentday + timedelta(4)
-end_date=end_date.strftime("%Y-%m-%d")
+presentday=datetime.today()  # Récupère la date et l'heure actuelles
+start_date=presentday.strftime("%Y-%m-%d")  # Convertit la date actuelle au format 'YYYY-MM-DD'
+end_date = presentday + timedelta(4)  # Ajoute 4 jours à la date actuelle
+end_date=end_date.strftime("%Y-%m-%d") # Convertit la nouvelle date au format 'YYYY-MM-DD'
 j=[]
 nj=[]
 j.append(presentday)
@@ -32,11 +34,13 @@ for i in range(4):
   nj.append(j[i+1].strftime("%A"))
 print(nj)
 
-n_start_date=presentday.strftime("%A")
+n_start_date=presentday.strftime("%A") # Obtient le jour de la semaine correspondant à la date actuelle
 
 
 print(start_date)
 print(end_date)
+# Obtention des données météorologiques entre start_date et end_date pour des coordonnées spécifiques
+# (supposons que start_date et end_date sont définis correctement avant ce code)
 url="https://api.open-meteo.com/v1/meteofrance?latitude=43.61&longitude=3.87&hourly=cloud_cover&hourly=relativehumidity_2m&hourly=precipitation&hourly=temperature_2m&hourly=windspeed_10m&start_date="+start_date+"&end_date="+end_date
 response=requests.get(url).content.decode('utf-8')
 data = json.loads(response)
@@ -61,6 +65,7 @@ precipitation=[0,0,0,0,0]
 maxhumi=[0,0,0,0,0]
 cloudj=[0,0,0,0,0]
 
+# Itération sur les données par tranche de 24 heures (supposant une donnée toutes les heures)
 for i in range(len(maxtemp)):
   maxtemp[i]=max(temperatureliste[24*i:24*(i+1)-1])
   mintemp[i]=min(temperatureliste[24*i:24*(i+1)-1])
@@ -68,6 +73,8 @@ for i in range(len(maxtemp)):
   precipitation[i]=sum(precipitationliste[24*i +6:24*(i+1)-1 -6])
   maxhumi[0]=max(relativehumidity[24*i:24*(i+1)-1])
   cloudj[0]=mean(cloud_cover[24*i +6:24*(i+1)-1 -6])
+  
+# Affichage des résultats
 print(mintemp)
 print(maxtemp)
 print(winds)
@@ -106,7 +113,7 @@ draw.text((C+20, 120), nj[0],font=font3, fill='black')
 for i in range(len(nj)-1):
     draw.text((C+20+170*(i+1), 140), nj[i+1],font=font1, fill='black')
 
-
+# Ajout de données météorologiques pour chaque jour
 for i  in range(len(maxtemp)):
   draw.text((C+170*i, L), str(round(maxtemp[i],2))+"°C",font=font, fill='black')
   draw.text((C+10+170*i, L+50), str(round(mintemp[i],2))+"°C",font=font1, fill='black')
@@ -122,6 +129,7 @@ for i  in range(len(maxtemp)):
     img.paste(img_cloud2.resize((100, 100)),(C+20+170*i, 190),)
   else:
     img.paste(img_cloud3.resize((100, 100)),(C+20+170*i, 190),)
+  # Ajout d'icônes d'images spécifiques en fonction des valeurs de couverture nuageuse et de précipitations pour une période spécifique  
 for i in range(len(cloudn)):
   if(precipitationn[i]>2):
     img.paste(img_pres_nuit.resize((50, 50)),(C+125+170*i, 250),)
