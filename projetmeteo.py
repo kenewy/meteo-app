@@ -16,6 +16,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 
 
+
 def dataclean(dataliste):
     for i in range(len(dataliste)):
         if(dataliste[i]==None):
