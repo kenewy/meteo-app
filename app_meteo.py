@@ -15,7 +15,7 @@ st.write(
 def dataclean(dataliste):
   # Cette fonction parcourt la liste de données et remplace les valeurs nulles (None) par la valeur précédente non nulle
   
-    for i in range(len(dataliste))
+    for i in range(len(dataliste)):
         if(dataliste[i]==None):
             dataliste[i]=dataliste[i-1]
     return dataliste  # Renvoie la liste nettoyée après avoir remplacé les valeurs nulles
