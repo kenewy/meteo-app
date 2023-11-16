@@ -3,3 +3,4 @@ Pillow
 datetime
 statistics
 matplotlip
+streamlit
