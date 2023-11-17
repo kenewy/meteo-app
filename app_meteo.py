@@ -100,7 +100,6 @@ img_pres_nuit=Image.open("pluit_nuit.jpg")
 img_croissant=Image.open("croissant.jpg")
 img_cr_nua=Image.open("cr_nua.jpg")
 img_nua_nuit=Image.open("nua_nuit.jpg")
-
 draw = ImageDraw.Draw(img)
 
 font = ImageFont.truetype("Gidole-Regular.ttf", size=50)
